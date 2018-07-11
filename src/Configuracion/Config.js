@@ -1,3 +1,3 @@
 
-const CONFIG= 'https://sigap-recibos.herokuapp.com/'
+const CONFIG= 'https://modulo-alumno-jdbc.herokuapp.com/'
 export default CONFIG;
