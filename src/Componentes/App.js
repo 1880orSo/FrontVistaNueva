@@ -120,7 +120,8 @@ componentDidUpdate(){
     var nombreAlumno = arreglo.join(" ");
 //ANTERIOR LINK
 //https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/
-
+console.log("link obtener recaudaciones por nombre ingresado")
+console.log(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo);
     fetch(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo)
       .then((response) => {
         return response.json()
@@ -128,9 +129,9 @@ componentDidUpdate(){
       .then((pagos) => {
 
 
-       /*  
+       
          console.log("pagos de la consulta de acuerdo el nombre ingresado");
-        console.log(pagos); */
+        console.log(pagos);
         var auxPagos = pagos;
         
       var alumnoDetalle = {
@@ -161,6 +162,8 @@ componentDidUpdate(){
       });
     //LINK ANTERIOR::
     //'https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/concepto/leer/restringido/'
+    console.log("link conceptos")
+    console.log(CONFIG+'concepto/leer/restringido/' + nombrenuevo)
     fetch(CONFIG+'concepto/leer/restringido/' + nombrenuevo)
       .then((response) => {
         return response.json()
@@ -315,6 +318,17 @@ Filtrar=(e)=>{
      console.log(concep); */
     //ANTERIOR LINK:
     //http://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/filtrar
+    console.log("link filtros")
+    console.log(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar')
+    var json={
+      "nom_ape": nombrenuevoFiltro,
+      "fechaInicial": filtrodel,
+      "fechaFinal": filtroal,
+      "conceptos": concep,
+      "recibos":this.state.filtroNumeros
+    }
+    console.log("json enviado")
+    console.log(json);
     fetch(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar',
     {
     headers: {

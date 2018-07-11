@@ -287,6 +287,8 @@ BuscarNombre(busqueda) {
            //ANTERIOR LINK
             //1//https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/alumno/alumnoprograma/programa/listar/restringido/
             //2//https://modulo-alumno-jdbc.herokuapp.com/alumno/alumnoprograma/programa/listar/restringido/
+          console.log("link alumno-programa")
+          console.log(CONFIG+'alumno/alumnoprograma/programa/listar/restringido/'+nombrenuevo2)
            fetch(CONFIG+'alumno/alumnoprograma/programa/listar/restringido/'+nombrenuevo2)
           .then((response) => {
           return response.json()
