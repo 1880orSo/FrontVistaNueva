@@ -114,15 +114,22 @@ componentDidUpdate(){
     // console.log("arreglo sin espacios en blanco");
     // console.log(arreglo);
 
-    var nombrenuevo = arreglo.join(" & ");
+    var nombrenuevo = arreglo.join(" ");
     // console.log("arreglo con join")
     // console.log(nombrenuevo);
     var nombreAlumno = arreglo.join(" ");
+
+//LINK ACTUAL
+//OBTENEMOS LOS PAGOS POR CODIGO DE ALUMNO INGRESADO
+//https://modulo-alumno-jdbc.herokuapp.com/recaudaciones/alumno/concepto/listar/codalumno/14207097
 //ANTERIOR LINK
+//links anteriores para obtener listado de pagos con nombre ingresado
+//https://modulo-alumno-jdbc.herokuapp.com/recaudaciones/alumno/concepto/listar/RAUL%20NAUPARI%20QUIROZ ::// nombrenuevo
 //https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/
+
 console.log("link obtener recaudaciones por nombre ingresado")
-console.log(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo);
-    fetch(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo)
+console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenuevo);
+    fetch(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenuevo)
       .then((response) => {
         return response.json()
       })
@@ -130,7 +137,7 @@ console.log(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo);
 
 
        
-         console.log("pagos de la consulta de acuerdo el nombre ingresado");
+        console.log("pagos de la consulta de acuerdo el codigo de alumno ingresado");
         console.log(pagos);
         var auxPagos = pagos;
         
@@ -160,11 +167,15 @@ console.log(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo);
         // si hay algún error lo mostramos en consola
         console.error(error)
       });
+    //LINK ACTUAL
+    //OBTENEMOS LOS CONCEPTOS DE PAGO POR CODIGO DE ALUMNO INGRESADO
+    //https://modulo-alumno-jdbc.herokuapp.com/concepto/leer/restringido/codalumno/14207097
     //LINK ANTERIOR::
+    //https://modulo-alumno-jdbc.herokuapp.com/concepto/leer/restringido/' + nombrenuevo
     //'https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/concepto/leer/restringido/'
     console.log("link conceptos")
-    console.log(CONFIG+'concepto/leer/restringido/' + nombrenuevo)
-    fetch(CONFIG+'concepto/leer/restringido/' + nombrenuevo)
+    console.log(CONFIG+'concepto/leer/restringido/codalumno/' + nombrenuevo)
+    fetch(CONFIG+'concepto/leer/restringido/codalumno/' + nombrenuevo)
       .then((response) => {
         return response.json()
       })
@@ -311,17 +322,21 @@ Filtrar=(e)=>{
     console.log("arreglo sin espacios en blanco");
     console.log(arreglo);
 */
-    var nombrenuevoFiltro = arregloFiltro.join(" & ");
+    var nombrenuevoFiltro = arregloFiltro.join(" ");
     /* console.log("lista de numeros pasados");
      console.log(this.state.filtroNumeros);
      console.log("lista de CONCEPTOS PASADOSs");
      console.log(concep); */
+    //LINK ACTUAL:
+
+    //https://modulo-alumno-jdbc.herokuapp.com/recaudaciones/alumno/concepto/listar/filtrar/codalumno
     //ANTERIOR LINK:
+    //https://modulo-alumno-jdbc.herokuapp.com/recaudaciones/alumno/concepto/listar/filtrar
     //http://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/filtrar
     console.log("link filtros")
-    console.log(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar')
+    console.log(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar/codalumno')
     var json={
-      "nom_ape": nombrenuevoFiltro,
+      "cod_alumno": nombrenuevoFiltro,
       "fechaInicial": filtrodel,
       "fechaFinal": filtroal,
       "conceptos": concep,
@@ -329,7 +344,7 @@ Filtrar=(e)=>{
     }
     console.log("json enviado")
     console.log(json);
-    fetch(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar',
+    fetch(CONFIG+'recaudaciones/alumno/concepto/listar/filtrar/codalumno',
     {
     headers: {
       'Content-Type': 'application/json'
@@ -337,7 +352,7 @@ Filtrar=(e)=>{
     method: "POST",
     body: JSON.stringify(
       {
-        "nom_ape": nombrenuevoFiltro,
+        "cod_alumno": nombrenuevoFiltro,
         "fechaInicial": filtrodel,
         "fechaFinal": filtroal,
         "conceptos": concep,
@@ -424,7 +439,6 @@ Filtrar=(e)=>{
     }
   }
 seleccionar(){
-  //console.log("gg");
   var checks=document.getElementsByClassName("checkbox1");
   for (let i=0;i<checks.length;i++) {
             if(this.state.todos==false){
