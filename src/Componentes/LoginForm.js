@@ -2,6 +2,7 @@ import React from 'react';
 import {browserHistory} from 'react-router-3';
 import swal from 'sweetalert'
 import CONFIG from '../Configuracion/Config'
+import ImprimirPrueba from './Componente-Imprimir-Prueba';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -36,26 +37,33 @@ class LoginForm extends React.Component {
     }
     // console.log("arreglo sin espacios en blanco");
     // console.log(arreglo);
-    var nombrenuevo = arreglo.join(" & ");
+    var nombrenuevo = arreglo.join(" ");
+    console.log("arreglo");
+    console.log(arreglo);
+    console.log("nombre nuevo");
+    console.log(nombrenuevo);
     // console.log("nombre nuevo");
     // console.log(nombrenuevo);
+    //OBTENEMOS LOS PAGOS POR CODIGO DE ALUMNO INGRESADO
+    //https://modulo-alumno-jdbc.herokuapp.com/recaudaciones/alumno/concepto/listar/codalumno/14207097
     //ANTERIOR LINK:
     //https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/
-        fetch(CONFIG+'recaudaciones/alumno/concepto/listar/' + nombrenuevo)
+
+    console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenuevo);
+    fetch(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/'+nombrenuevo)
             .then((response) => {
             return response.json()
             })
             .then((pagos) => {
-            // console.log("pagos recibidos");
-            // console.log(pagos);
-             if(pagos.length>0){
-
-                
+            console.log("pagos recibidos");
+            console.log(pagos);
+            console.log(pagos.length);
+             if(pagos.length>0){    
               swal("Consulta realizada exitosamente!" ,"", "success").then(
                  browserHistory.push('/'+this.state.nombres.toUpperCase()))
               }
               else{
-                swal("No se encontraron pagos con el nombre ingresado", "", "info");
+                swal("No se encontraron pagos con el codigo ingresado", "", "info");
               }
 
             })
@@ -128,7 +136,7 @@ class LoginForm extends React.Component {
             <div>
             <i className="material-icons">person</i>
             </div>
-            <b>Nombres y Apellidos:</b>
+            <b>Código:</b>
             <div className="center">
             <input type="text"  value={this.state.nombres} onChange={this.onChange} />
             </div>
