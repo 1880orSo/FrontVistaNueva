@@ -81,7 +81,7 @@ class Imprimir extends React.Component {
         var lista2 = conceptos.filter(h => h === auxConcepto);
         console.log("lista2");
         console.log(lista2);
-        console.log("longitut");
+        console.log("longitud");
         console.log(lista2.length);
         if(!lista2.length){
           conceptos.push(auxConcepto);
@@ -91,7 +91,7 @@ class Imprimir extends React.Component {
   console.log("listado de conceptos obtenidos");
   console.log(conceptos);
   
-  //filtramos el array de pagos seleccionados por el tipo de concepto
+//filtramos el array de pagos seleccionados por el tipo de concepto
 var listaFinal=[];
 for (let k = 0; k<conceptos.length; k++) {
     
@@ -107,6 +107,8 @@ for (let k = 0; k<conceptos.length; k++) {
 console.log("Lista final");
 console.log(listaFinal);
 var listadoFinalFormato = [];
+
+// Damos formato al array filtrado, para pasarlo al pdf a generar
 for (let l = 0; l<listaFinal.length; l++) {
   var arrayAuxiliar=[];
   var arrayAntes = listaFinal[l];
@@ -123,26 +125,9 @@ for (let l = 0; l<listaFinal.length; l++) {
 
   listadoFinalFormato.push(arrayAuxiliar);
 }
+
 console.log("listado final con el formato requerido para generar el pdf");
 console.log(listadoFinalFormato);
-
-    // console.log("listado para enviar a imprimir");
-    
-    // console.log(listado);
-    
-    /*
-    var pdf = new jsPDF();
-    pdf.text(20,20,"Estado de Pagos");
-    pdf.text(20,40,listado);
-    pdf.save('mipdf.pdf');
-
- 
-    //CREAR UN PDF A PARTIR DE UN DIV DEL HTMl
-     const pdf = new jsPDF('p', 'mm', 'a4');
-     pdf.fromHTML(window.document.getElementById('historial'), 10, 10,{'width': 180});
-     pdf.save('test.pdf');
-     */
-
 
     var columns = ["N°","Descripción","Moneda","Concepto","Numero Recibo","Fecha","Importe","Observación"];
     
@@ -301,9 +286,21 @@ console.log(listadoFinalFormato);
         headerStyles: {fillColor: [180, 180, 180],
         textColor:0,
         fontStyle:'bold'},
-        startY : 200,
+        startY : 225,
         showHeader:'firstPage',
         addPageContent: function(data){
+          doc.setFont("helvetica");
+          doc.setFontType("bold");
+          doc.setFontSize(10);
+          doc.text("PAGO POR CONCEPTO "+conceptos[0],38, 210);
+          //linea horizontal
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.5);
+          doc.line(35,213 ,200,213);
+          //linea vertical
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.5);
+          doc.line(35, 207, 35, 213);
         }
     });
       for (let k = 1; k<listadoFinalFormato.length; k++) {
@@ -326,9 +323,22 @@ console.log(listadoFinalFormato);
           headerStyles: {fillColor: [180, 180, 180],
           textColor:0,
           fontStyle:'bold'},
-          startY : first.finalY + 10,
+          startY : first.finalY + 40,
           showHeader:'firstPage',
           addPageContent: function(data){
+            doc.setFont("helvetica");
+            doc.setFontType("bold");
+            doc.setFontSize(10);
+            doc.text("PAGO POR CONCEPTO "+conceptos[k],38, first.finalY + 25);
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.5);
+            doc.line(35,first.finalY + 28 ,200,first.finalY + 28 );
+
+              //linea vertical
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.5);
+            doc.line(35, first.finalY + 22, 35, first.finalY + 28);
+
           }
       });   
     }
@@ -369,4 +379,3 @@ console.log(listadoFinalFormato);
   }
 }
 export default Imprimir;
-
