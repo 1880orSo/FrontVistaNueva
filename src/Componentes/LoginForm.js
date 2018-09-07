@@ -1,8 +1,7 @@
 import React from 'react';
 import {browserHistory} from 'react-router-3';
 import swal from 'sweetalert'
-import CONFIG from '../Configuracion/Config'
-import ImprimirPrueba from './Componente-Imprimir-Prueba';
+import CONFIG from '../Configuracion/Config';
 
 class LoginForm extends React.Component {
   constructor(props) {
