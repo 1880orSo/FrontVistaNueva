@@ -25,7 +25,7 @@ class Alumno extends React.Component {
         
           <b>Código:</b>
           <div className="negro">
-            {this.props.alumno.apeNom}
+            {this.props.alumno.codigo}
           </div>
         </div>
         </div>)

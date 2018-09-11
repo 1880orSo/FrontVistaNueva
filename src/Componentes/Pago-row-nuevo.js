@@ -12,7 +12,7 @@ class PagoRowNuevo extends React.Component {
       <td className="td1">{this.props.pago.nombre}</td>
       <td className="td1">{this.props.pago.fecha.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3-$2-$1')}</td>
       <td className="td1">{this.props.pago.moneda}</td>
-      <td className="td1">{'S/. '+this.props.pago.importe}</td>
+      <td className="td1">{'S/. '+this.props.pago.importe.toFixed(2)}</td>
       <td className="td1"><SelectNuevo  listado = {this.props.pago.codigos}/></td>
 	</tr>
     )

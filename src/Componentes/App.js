@@ -129,6 +129,7 @@ componentDidUpdate(){
 
 console.log("link obtener recaudaciones por nombre ingresado")
 console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenuevo);
+//LLAMOS AL SERVICIO PARA OBTENER EL LISTADO DE PAGOS DEL ALUMNO POR CODIGO INGRESADO
     fetch(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenuevo)
       .then((response) => {
         return response.json()
@@ -141,13 +142,9 @@ console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenue
         console.log(pagos);
         var auxPagos = pagos;
         
-      var alumnoDetalle = {
-      apeNom: nombreAlumno
-      }
         this.setState({
           pagocero: pagos,
-          pagos: pagos,
-          alumno: alumnoDetalle
+          pagos: pagos
         },
 
         );
@@ -175,6 +172,7 @@ console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenue
     //'https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/concepto/leer/restringido/'
     console.log("link conceptos")
     console.log(CONFIG+'concepto/leer/restringido/codalumno/' + nombrenuevo)
+    //LLAMAMOS AL SERVICIO PARA OBTENERE EL LISTADO DE CONCEPTOS DE TODOS LOS PAGOS DEL ALUMNO
     fetch(CONFIG+'concepto/leer/restringido/codalumno/' + nombrenuevo)
       .then((response) => {
         return response.json()
@@ -191,7 +189,33 @@ console.log(CONFIG+'recaudaciones/alumno/concepto/listar/codalumno/' + nombrenue
       .catch(error => {
        
         console.error(error)
-      });   
+      });  
+      //LLAMOS AL SERVICIO PARA OBTENER LA INFORMACION DEL ALUMNO
+      //LINK ACTUAL
+      //https://modulo-alumno-jdbc.herokuapp.com/alumnoprograma/buscar/14207097
+
+      fetch(CONFIG+'alumnoprograma/buscar/' + nombrenuevo)
+      .then((response) => {
+        return response.json()
+      })
+      .then((detalleAlumno) => {
+
+        var alumnoDetalle = {
+          apeNom: detalleAlumno.apePaterno+" "+ detalleAlumno.apeMaterno + " "+detalleAlumno.nomAlumno,
+          codigo:detalleAlumno.codAlumno
+          }
+            this.setState({
+              alumno: alumnoDetalle
+            },
+    
+            );
+      
+        
+      })
+      .catch(error => {
+       
+        console.error(error)
+      });  
   }
   Regresar=(e)=>{
     

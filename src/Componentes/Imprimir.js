@@ -58,18 +58,18 @@ class Imprimir extends React.Component {
         }
       }
 
-    importe = this.CalcularImporte(total);
+    importe = this.CalcularImporte(total).toFixed(2);
    
     // console.log(total);
 
+    console.log("total de listado de pagos que han sido seleccionados");
+    console.log(total);
 
     for (let i = 0; i<total.length; i++) {
       var pago = [i+1,total[i].nombre,total[i].moneda,total[i].concepto,total[i].numero,
       total[i].fecha.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3-$2-$1'),"S/."+total[i].importe,total[i].observacion]
       listado.push(pago);
     }
-   console.log("listado de pagos seleccionados");
-   console.log(listado);
    //Obtenemos todos los concepto existentes de los pagos seleccionados
   var conceptos=[];
   
@@ -120,7 +120,7 @@ for (let l = 0; l<listaFinal.length; l++) {
     arrayAuxiliar.push(pago);
   }
   var agregarTotal = [ ,,,,,
-    ,"Total","S/."+totalizado]
+    ,"Total","S/."+totalizado.toFixed(2)]
   arrayAuxiliar.push(agregarTotal);
 
   listadoFinalFormato.push(arrayAuxiliar);
@@ -237,7 +237,7 @@ console.log(listadoFinalFormato);
     doc.setFont("helvetica");
     doc.setFontType("bold");
     doc.setFontSize(9);
-    doc.text("CODIGO:", 35, 160);
+    doc.text("CÓDIGO:", 35, 160);
 
     doc.setFont("helvetica");
     doc.setFontType("bold");
@@ -261,13 +261,28 @@ console.log(listadoFinalFormato);
     doc.setFont("helvetica");
     doc.setFontType("normal");
     doc.setFontSize(9);
-    doc.text(nombres, 185, 160); 
+    doc.text(codigo, 185, 160); 
 
     doc.setFont("helvetica");
     doc.setFontType("normal");
     doc.setFontSize(9);
     doc.text("S/."+importe.toString(), 185, 180);
+    
     if(listadoFinalFormato.length>0){
+    //Mostramos el encabezado de la primera tabla
+    doc.setFont("helvetica");
+    doc.setFontType("bold");
+    doc.setFontSize(10);
+    doc.text("PAGO POR CONCEPTO "+conceptos[0],38, 210);
+    //linea horizontal
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.5);
+    doc.line(35,213 ,200,213);
+    //linea vertical
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.5);
+    doc.line(35, 207, 35, 213);
+  //Mostramos el encabezado de la primera tabla
       doc.autoTable(columns, listadoFinalFormato[0], {
         styles: {
             cellPadding: 5, // a number, array or object (see margin below)
@@ -287,24 +302,30 @@ console.log(listadoFinalFormato);
         textColor:0,
         fontStyle:'bold'},
         startY : 225,
-        showHeader:'firstPage',
-        addPageContent: function(data){
-          doc.setFont("helvetica");
-          doc.setFontType("bold");
-          doc.setFontSize(10);
-          doc.text("PAGO POR CONCEPTO "+conceptos[0],38, 210);
-          //linea horizontal
-          doc.setDrawColor(0, 0, 0);
-          doc.setLineWidth(0.5);
-          doc.line(35,213 ,200,213);
-          //linea vertical
-          doc.setDrawColor(0, 0, 0);
-          doc.setLineWidth(0.5);
-          doc.line(35, 207, 35, 213);
-        }
+        showHeader:'firstPage'
+        
     });
       for (let k = 1; k<listadoFinalFormato.length; k++) {
         var first = doc.autoTable.previous;
+
+        //Mostramos el encabezado de cada tabla
+        doc.setFont("helvetica");
+        doc.setFontType("bold");
+        doc.setFontSize(10);
+        doc.text("PAGO POR CONCEPTO "+conceptos[k],38, first.finalY + 25);
+        console.log("pago por concepto");
+           //linea horizontal
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(35,first.finalY + 28 ,200,first.finalY + 28 );
+
+          //linea vertical
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.line(35, first.finalY + 22, 35, first.finalY + 28);
+
+        //Mostramos el encabezado de cada tabla
+
         doc.autoTable(columns, listadoFinalFormato[k], {
           styles: {
               cellPadding: 5, // a number, array or object (see margin below)
@@ -324,23 +345,8 @@ console.log(listadoFinalFormato);
           textColor:0,
           fontStyle:'bold'},
           startY : first.finalY + 40,
-          showHeader:'firstPage',
-          addPageContent: function(data){
-            doc.setFont("helvetica");
-            doc.setFontType("bold");
-            doc.setFontSize(10);
-            doc.text("PAGO POR CONCEPTO "+conceptos[k],38, first.finalY + 25);
-            doc.setDrawColor(0, 0, 0);
-            doc.setLineWidth(0.5);
-            doc.line(35,first.finalY + 28 ,200,first.finalY + 28 );
-
-              //linea vertical
-            doc.setDrawColor(0, 0, 0);
-            doc.setLineWidth(0.5);
-            doc.line(35, first.finalY + 22, 35, first.finalY + 28);
-
-          }
-      });   
+          showHeader:'firstPage'
+      });  
     }
     }else{
       doc.setFont("helvetica");
